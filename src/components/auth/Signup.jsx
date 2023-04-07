@@ -1,10 +1,35 @@
-import React from "react"
+import React, {useState} from "react"
+import { useDispatch } from "react-redux";
+import { createUser } from '../../store/actions/user'
 import { Link } from "react-router-dom";
 const SignUp = () => {
+
+  const dispatch = useDispatch();
+
+  const [formData,setFormData] = useState({
+    name : "",
+    email : "",
+    username : "",
+    password : ""
+  })
+  const handleInputChange = (event) => {
+    event.preventDefault();
+    setFormData({
+      ...formData,
+      [event.target.id]: event.target.value
+    })
+  }
 
   /** This is Sign Up Function */
   const handleSignUp = (event) => {
     event.preventDefault();
+    dispatch(createUser(formData));
+    setFormData({
+      name : "",
+      email : "",
+      username : "",
+      password : ""
+    })
   }
  /* -------------------------------- jsx code -------------------------------- */
   return (
@@ -22,8 +47,25 @@ const SignUp = () => {
         <input
           type="text"
           id="name"
+          value={formData.name}
+          onChange={handleInputChange}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          placeholder="John"
+        />
+      </div>
+      <div>
+        <label
+          htmlFor="email"
+          className="block mb-2 text-sm font-medium text-gray-900"
+        >
+          Email
+        </label>
+        <input
+          type="text"
+          id="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          placeholder="John@gmail.com"
         />
       </div>
       <div>
@@ -36,8 +78,9 @@ const SignUp = () => {
         <input
           type="text"
           id="username"
+          value={formData.username}
+          onChange={handleInputChange}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          placeholder="John"
         />
       </div>
       <div>
@@ -50,6 +93,8 @@ const SignUp = () => {
         <input
           type="password"
           id="password"
+          value={formData.password}
+          onChange={handleInputChange}
           className="border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
         />
       </div>
